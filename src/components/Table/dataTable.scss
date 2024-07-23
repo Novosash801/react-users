@@ -1,0 +1,15 @@
+.wrapper {
+    margin: 0 auto;
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+
+        // background-color: black;
+        td,
+        th {
+            padding: 10px 15px;
+            border: 1px solid #eee;
+            text-align: center;
+        }
+    }
+}
