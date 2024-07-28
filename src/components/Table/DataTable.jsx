@@ -141,10 +141,37 @@ const DataTable = () => {
         setFilteredData(users);
     };
 
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         setSearchData(e.target.value);
         if (e.target.value === '') {
             setFilteredData(users);
+            return;
+        }
+        await globalSearch(e.target.value);
+    };
+
+    const globalSearch = async (query) => {
+        try {
+            setLoading(true);
+            const response = await fetch(`https://dummyjson.com/users/search?q=${query}`);
+            const result = await response.json();
+            setLoading(false);
+
+            if (result.error) {
+                console.error(`Ошибка: ${result.error}`);
+                return;
+            }
+
+            const modUsers = result.users.map((item) => ({
+                ...item,
+                key: item.id,
+                name: `${item.firstName} ${item.maidenName || ''} ${item.lastName}`,
+                address: `${item.address.city}, ${item.address.address}`,
+            }));
+            setFilteredData(modUsers);
+        } catch (error) {
+            setLoading(false);
+            console.error('Ошибка при обработке данных:', error);
         }
     };
 
@@ -161,24 +188,6 @@ const DataTable = () => {
         setIsModalOpen(false);
     };
 
-    const globalSearch = () => {
-        const searchLower = searchData.toLowerCase();
-        const filtered = users.filter((value) => {
-            const fullName =
-                `${value.firstName || ''} ${value.maidenName || ''} ${value.lastName || ''}`.toLowerCase();
-            const address = value.address.toLowerCase();
-
-            return (
-                fullName.includes(searchData.toLowerCase()) ||
-                (value.age && value.age.toString().includes(searchData)) ||
-                (value.gender && value.gender.toLowerCase().includes(searchData.toLowerCase())) ||
-                (value.phone && value.phone.toLowerCase().includes(searchData.toLowerCase())) ||
-                address.includes(searchLower)
-            );
-        });
-        setFilteredData(filtered);
-    };
-
     return (
         <div className='user-table-container'>
             <div className='search-bar'>
@@ -189,7 +198,7 @@ const DataTable = () => {
                     value={searchData}
                     className='search-input'
                 />
-                <button onClick={globalSearch} className='search-button'>
+                <button onClick={() => globalSearch(searchData)} className='search-button'>
                     Поиск
                 </button>
                 <button onClick={clearAll} className='clear-button'>
