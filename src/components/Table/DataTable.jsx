@@ -64,7 +64,6 @@ const DataTable = () => {
                 title: <span>ФИО {getSortIcon('name')}</span>,
                 dataIndex: 'name',
                 sorter: true,
-                align: 'center',
                 width: 200,
                 ellipsis: true,
             },
@@ -72,20 +71,17 @@ const DataTable = () => {
                 title: <span>Возраст {getSortIcon('age')}</span>,
                 dataIndex: 'age',
                 sorter: true,
-                align: 'center',
                 width: 100,
             },
             {
                 title: <span>Пол{getSortIcon('gender')}</span>,
                 dataIndex: 'gender',
                 sorter: true,
-                align: 'center',
                 width: 100,
             },
             {
                 title: <span>Номер{getSortIcon('phone')}</span>,
                 dataIndex: 'phone',
-                align: 'center',
                 width: 150,
                 ellipsis: true,
             },
@@ -93,7 +89,6 @@ const DataTable = () => {
                 title: <span>Адрес{getSortIcon('address')}</span>,
                 dataIndex: 'address',
                 sorter: true,
-                align: 'center',
                 width: 250,
                 ellipsis: true,
             },
@@ -198,9 +193,6 @@ const DataTable = () => {
                     value={searchData}
                     className='search-input'
                 />
-                <button onClick={() => globalSearch(searchData)} className='search-button'>
-                    Поиск
-                </button>
                 <button onClick={clearAll} className='clear-button'>
                     Сброс
                 </button>
