@@ -217,7 +217,7 @@ const DataTable = () => {
                 </thead>
                 <tbody>
                     {filteredData.map((user) => (
-                        <tr key={user.id} onClick={showModal}>
+                        <tr key={user.id} onClick={() => showModal(user)}>
                             {columns.map((col) => (
                                 <td key={col.dataIndex}>{user[col.dataIndex]}</td>
                             ))}
